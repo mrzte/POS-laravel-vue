@@ -1,17 +1,15 @@
-
-
 require('./bootstrap');
 
 window.Vue = require('vue');
 
 
-//Form
+//Vue Form
 import { Form, HasError, AlertError } from 'vform'
 window.Form = Form;
 Vue.component(HasError.name, HasError)
 Vue.component(AlertError.name, AlertError)
 
-//Sweetalert
+//Sweetalert 2
 import swal from 'sweetalert2'
 window.swal = swal;
 
@@ -57,7 +55,7 @@ const options = {
 
 Vue.use(VueProgressBar, options)
 
-//Router
+//Vue Router
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 let routes = [

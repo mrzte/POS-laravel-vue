@@ -25,12 +25,13 @@
                             <tr>
                                 <th>No</th>
                                 <th>Id</th>
-                                <th>Nama Produk</th>
+                                <th>Kode/Nama Produk</th>
+                                <th>Deskripsi</th>
                                 <th>Stok</th>
                                 <th>Harga</th>
                                 <th>Kategori</th>
+                                <th>Dibuat Pada</th>
                                 <th>Terahir diperbarui</th>
-                                <th>Kode Produk</th>
                                 <th>Photo Produk</th>
                                 <th>Aksi</th>
                             </tr>
@@ -39,15 +40,16 @@
                             <tr v-for="(product, key) in product.data" v-bind:key="product.id">
                                 <td width="30px">{{key+1}}</td>
                                 <td width="30px">{{product.id}}</td>
-                                <td>{{product.name}}</td>
+                                <td><span class="badge badge-success">{{product.code}}</span> {{product.name}}</td>
+                                <td>{{product.description}}</td>
                                 <td>{{product.stock}}</td>
-                                <td>{{product.price}}</td>
+                                <td>Rp.{{product.price}}</td>
                                 <td>{{product.category_id}}</td>
                                 <td>{{product.updated_at}}</td>
-                                <td></td>
+                                <td>{{product.created_at}}</td>
                                 <td></td>
                                 <td width="110px">
-                                    <button @click="updateModal(category)" class="btn btn-primary">
+                                    <button @click="updateModal(product)" class="btn btn-primary">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                     <button @click="deleteProduct(product.id)" class="btn btn-danger">
@@ -73,24 +75,33 @@
                          <form @submit.prevent="editmode ? updateProduct() : makeProduct() ">
                             <div class="modal-body">
                                 <div class="form-group">
+                                  <label for="name">Nama</label>
                                   <input v-model="form.name" placeholder="Masukan Nama Product" class="form-control" type="text" name="name" id="name">
                                   <has-error :form="form" field="name"></has-error> 
                                 </div>
                                 <div class="form-group">
-                                    <textarea v-model="form.stock" type="number" name="stock"
+                                    <label for="stock">Stok</label>
+                                    <input v-model="form.stock" type="number" name="stock"
                                     placeholder="Masukan Stok Produk"
                                     class="form-control" :class="{ 'is-invalid': form.errors.has('stock') }">
-                                    </textarea>
                                     <has-error :form="form" field="stock"></has-error>
                                </div>
                                <div class="form-group">
-                                    <textarea v-model="form.price" type="number" name="price"
+                                   <label for="price">Harga</label>
+                                    <input v-model="form.price" type="number" name="price"
                                     placeholder="Masukan Harga Produk"
                                     class="form-control" :class="{ 'is-invalid': form.errors.has('price') }">
-                                    </textarea>
                                     <has-error :form="form" field="price"></has-error>
                                </div>
+                                <div class="form-group">
+                                    <label for="code">Kode</label>
+                                    <input v-model="form.code" type="text" name="code"
+                                    placeholder="Masukan Kode Produk"
+                                    class="form-control" :class="{ 'is-invalid': form.errors.has('code') }">
+                                    <has-error :form="form" field="code"></has-error>
+                               </div>
                               <div class="form-group">
+                                  <label for="category">Kategori</label>
                                   <select v-model="form.category_id" name="kategori" id="kategori"
                                    class="form-control" :class="{ 'is-invalid': form.errors.has('category_id') }">
                                     <option value="">Pilih Kategori</option>
@@ -133,6 +144,7 @@ export default {
                 name:'',
                 description:'',
                 stock:'',
+                code:'',
                 price:'',
                 category_id:''
             })
@@ -230,7 +242,7 @@ export default {
             },
         loadProduct(){
             axios.get("api/kategori2").then(({data}) => (this.category = data));
-            axios.get("api/kategori").then(({data}) => (this.product = data));    
+            axios.get("api/produk").then(({data}) => (this.product = data));    
         },
         makeProduct(){
             this.$Progress.start();

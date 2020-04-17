@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('kategori','CategoryController');
+Route::apiResource('produk','ProductController');
 Route::get('kategori2','CategoryController@index2');
