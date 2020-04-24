@@ -20,7 +20,7 @@
             <div class="card">
                 <div class="card-body">
                     <button @click="makeModal" class="mb-3 btn btn-primary">Tambah Data<i class="ml-2 fas fa-plus"></i></button>
-                    <table class="table table-bordered table-striped table-hover">
+                    <table class="table table-bordered table-striped table-hover" id="myTable">
                         <thead class="alert-primary">
                             <tr>
                                 <th>No</th>
@@ -40,11 +40,11 @@
                             <tr v-for="(product, key) in product.data" v-bind:key="product.id">
                                 <td width="30px">{{key+1}}</td>
                                 <td width="30px">{{product.id}}</td>
-                                <td><span class="badge badge-success">{{product.code}}</span> {{product.name}}</td>
+                                <td width="400px"><span class="badge badge-success">{{product.code}}</span> {{product.nama}}</td>
                                 <td>{{product.description}}</td>
                                 <td>{{product.stock}}</td>
                                 <td>Rp.{{product.price}}</td>
-                                <td>{{product.category_id}}</td>
+                                <td>{{product.name}}</td>
                                 <td>{{product.updated_at}}</td>
                                 <td>{{product.created_at}}</td>
                                 <td></td>
@@ -76,8 +76,17 @@
                             <div class="modal-body">
                                 <div class="form-group">
                                   <label for="name">Nama</label>
-                                  <input v-model="form.name" placeholder="Masukan Nama Product" class="form-control" type="text" name="name" id="name">
-                                  <has-error :form="form" field="name"></has-error> 
+                                  <input v-model="form.nama" placeholder="Masukan Nama Product" 
+                                  :class="{ 'is-invalid': form.errors.has('nama') }"
+                                  class="form-control" type="text" name="nama" id="nama">
+                                  <has-error :form="form" field="nama"></has-error> 
+                                </div>
+                                 <div class="form-group">
+                                  <label for="name">Deskripsi</label>
+                                  <input v-model="form.description" placeholder="Masukan Deskripsi" 
+                                  :class="{ 'is-invalid': form.errors.has('description') }"
+                                  class="form-control" type="text" name="description" id="description">
+                                  <has-error :form="form" field="nama"></has-error> 
                                 </div>
                                 <div class="form-group">
                                     <label for="stock">Stok</label>
@@ -93,9 +102,21 @@
                                     class="form-control" :class="{ 'is-invalid': form.errors.has('price') }">
                                     <has-error :form="form" field="price"></has-error>
                                </div>
+                               <div class="form-group">
+                                  <input type="text" name="user" v-model="form.user_id" id="user"
+                                   class="form-control" list="user">
+                                   <datalist id="user">
+                                    <option selected :value="user">
+                                      Users
+                                    </option>
+                                   </datalist>
+                               </div>
                                 <div class="form-group">
                                     <label for="code">Kode</label>
-                                    <input v-model="form.code" type="text" name="code"
+                                    <input v-show="!editmode" v-model="form.code" type="text" name="code"
+                                    placeholder="Masukan Kode Produk"
+                                    class="form-control" :class="{ 'is-invalid': form.errors.has('code') }">
+                                    <input v-show="editmode" disabled v-model="form.code" type="text" name="code"
                                     placeholder="Masukan Kode Produk"
                                     class="form-control" :class="{ 'is-invalid': form.errors.has('code') }">
                                     <has-error :form="form" field="code"></has-error>
@@ -128,6 +149,15 @@ export default {
     data() {
         return {
             editmode: false,
+            user:{},
+            form: new Form({
+                
+            })
+        }
+    },
+    data() {
+        return {
+            editmode: false,
             category:{},
             form: new Form({
                 id:'',
@@ -141,12 +171,13 @@ export default {
             product:{},
             form: new Form({
                 id:'',
-                name:'',
+                nama:'',
                 description:'',
                 stock:'',
                 code:'',
                 price:'',
-                category_id:''
+                category_id:'',
+                user_id:''
             })
         }
     },
@@ -241,8 +272,9 @@ export default {
                 })
             },
         loadProduct(){
+            axios.get("id_user").then(({data}) => (this.user = data));
             axios.get("api/kategori2").then(({data}) => (this.category = data));
-            axios.get("api/produk").then(({data}) => (this.product = data));    
+            axios.get("/produk/json").then(({data}) => (this.product = data));    
         },
         makeProduct(){
             this.$Progress.start();

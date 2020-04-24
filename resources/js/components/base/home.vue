@@ -20,9 +20,9 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>150</h3>
+                <h3>{{hitung_stok}}</h3>
 
-                <p>New Orders</p>
+                <p>Produk</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -50,14 +50,14 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44</h3>
+                <h3>{{hitung}}</h3>
 
-                <p>User Registrations</p>
+                <p>Verifikasi Pengguna</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <router-link to="/user" class="small-box-footer">Info Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></router-link>
             </div>
           </div>
           <!-- ./col -->
@@ -79,3 +79,37 @@
         </div>
 </div>
 </template>
+<script >
+  export default {
+    data() {
+        return {
+            editmode: false,
+            hitung_stok:{},
+            form: new Form({
+                
+            })
+        }
+    },
+    data() {
+        return {
+            editmode: false,
+            hitung:{},
+            form: new Form({
+                
+            })
+        }
+    },
+    mounted() {
+            console.log('Component mounted.')
+            console.log('Terload')
+            this.loadHitung()
+        },
+    methods: {
+      loadHitung(){
+        axios.get("hitung").then(({data}) => (this.hitung_stok = data))
+        axios.get("api/hitung").then(({data}) => (this.hitung = data))
+      }
+
+     }    
+    }    
+</script>

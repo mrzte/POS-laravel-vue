@@ -55,6 +55,11 @@ const options = {
 
 Vue.use(VueProgressBar, options)
 
+// //Vue Filters
+// Vue.filters('upText', function(text){
+//   return text.toUpperCase()
+// })
+
 //Vue Router
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -62,12 +67,31 @@ let routes = [
     { path: '/kategori', component:require('./components/base/kategori.vue').default },
     { path: '/home', component:require('./components/base/home.vue').default },
     { path: '/produk', component:require('./components/base/produk.vue').default },
+    { path: '/role', component:require('./components/base/role.vue').default },
+    { path: '/user', component:require('./components/base/user.vue').default },
+    { path: '/developer', component: require('./components/base/passport.vue').default },
 ]
 
 const router = new VueRouter({
     mode: 'history',
-   routes // short for `routes: routes`
+   routes 
 })
+
+//Laravel Passport Frontend
+Vue.component(
+  'passport-clients',
+  require('./components/passport/Clients.vue').default
+);
+
+Vue.component(
+  'passport-authorized-clients',
+  require('./components/passport/AuthorizedClients.vue').default
+);
+
+Vue.component(
+  'passport-personal-access-tokens',
+  require('./components/passport/PersonalAccessTokens.vue').default
+);
 
 //Vue Componet Load
 Vue.component('kategori', require('./components/base/kategori.vue').default);

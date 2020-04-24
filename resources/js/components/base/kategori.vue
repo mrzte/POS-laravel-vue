@@ -63,10 +63,12 @@
                          <form @submit.prevent="editmode ? updateCategory() : makeCategory() ">
                             <div class="modal-body">
                                 <div class="form-group">
+                                  <label for="name">Nama Kategori</label>
                                   <input v-model="form.name" placeholder="Masukan Nama Kategori" class="form-control" type="text" name="kategori" id="kategori">
                                   <has-error :form="form" field="kategori"></has-error> 
                                 </div>
                                 <div class="form-group">
+                                  <label for="description">Deskripsi</label>
                                     <textarea v-model="form.description" type="text" name="description"
                                     placeholder="Masukan Deskripsi Kategori"
                                     class="form-control" :class="{ 'is-invalid': form.errors.has('description') }">

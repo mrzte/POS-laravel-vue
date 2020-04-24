@@ -20,4 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/produk/json', 'ProductController@index')->name('json');
+Route::get('id_user','ProductController@id_user');
+Route::get('hitung','HitungController@stok');
 Route::get('/{any}','HomeController@index')->where(' any', '.*');

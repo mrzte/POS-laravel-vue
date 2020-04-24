@@ -8,10 +8,11 @@ window._ = require('lodash');
 
 try {
     window.Popper = require('popper.js').default;
-    window.$ = wixndow.jQuery = require('jquery');
+    window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
     require('admin-lte');
+    require('datatables.net-bs4');
 } catch (e) {}
 
 /**

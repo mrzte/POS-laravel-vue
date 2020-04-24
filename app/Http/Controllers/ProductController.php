@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Category;
 use DB;
+use Illuminate\Support\Facades\Auth;
+use App\User;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('api');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,12 +22,20 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $user = Auth::user()->id;
         $products = DB::table('products')
         ->join('categories','categories.id','products.category_id')
         ->select('products.*','categories.name')
+        ->where('user_id','=', $user)
         ->orderBy('products.created_at','DESC')
         ->paginate(10);
         return response()->json($products);
+    }
+
+    public function id_user()
+    {
+        $user = Auth::user()->id;
+        return response()->json($user);
     }
 
     /**
@@ -45,7 +59,7 @@ class ProductController extends Controller
         $product = Product::all();
         $this->validate($request, [
             'code' => 'required|string|max:10|unique:products',
-            'name' => 'required|string|max:100',
+            'nama' => 'required|string|max:100',
             'description' => 'nullable|string|max:100',
             'stock' => 'required|integer',
             'price' => 'required|integer',
@@ -68,7 +82,7 @@ class ProductController extends Controller
      
         $product = Product::create([
             'code' => $request->code,
-            'name' => $request->name,
+            'nama' => $request->nama,
             'description' => $request->description,
             'stock' => $request->stock,
             'price' => $request->price,
@@ -106,9 +120,23 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $id)
     {
-        //
+        $data = Product::findOrFail($id);
+        
+        $this->validate($request,
+        [
+    
+            'nama' => 'required|string',
+            'description' => 'sometimes|nullable',
+            'stock' => 'required|nullable',
+            'photo' => 'sometimes|nullable',
+            'price' => 'required|nullable',
+            'category_id' => 'required|nullable',
+
+        ]);
+        
+        $data->update($request->all());
     }
 
     /**
@@ -117,8 +145,8 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        //
+        Product::findOrFail($id)->delete();
     }
 }
