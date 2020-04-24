@@ -25,9 +25,9 @@
                 <p>Produk</p>
               </div>
               <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="fas fa-shopping-bag"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="#" class="small-box-footer">Info Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -55,7 +55,7 @@
                 <p>Verifikasi Pengguna</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person-add"></i>
+                <i class="fas fa-user-plus"></i>
               </div>
               <router-link to="/user" class="small-box-footer">Info Lebih Lanjut <i class="fas fa-arrow-circle-right"></i></router-link>
             </div>

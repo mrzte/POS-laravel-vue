@@ -60019,7 +60019,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "icon" }, [
-      _c("i", { staticClass: "ion ion-bag" })
+      _c("i", { staticClass: "fas fa-shopping-bag" })
     ])
   },
   function() {
@@ -60027,7 +60027,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("a", { staticClass: "small-box-footer", attrs: { href: "#" } }, [
-      _vm._v("More info "),
+      _vm._v("Info Lebih Lanjut "),
       _c("i", { staticClass: "fas fa-arrow-circle-right" })
     ])
   },
@@ -60062,7 +60062,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "icon" }, [
-      _c("i", { staticClass: "ion ion-person-add" })
+      _c("i", { staticClass: "fas fa-user-plus" })
     ])
   },
   function() {
